@@ -8,7 +8,16 @@
 
 <body>
 	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
+    <script>
+		let a = [1,2,2];
+		let n = a.length;
+		let m = new Map();
+		for(let i of a){
+			m.set(i,(m.get(i)||0)+1);
+		}
+		for(let [k,v] of m){
+			if(v>Math.floor(n/2))return k;
+		}
    </script>
 
 </body>
