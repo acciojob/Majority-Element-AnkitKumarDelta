@@ -5,19 +5,37 @@
 </head>
 <body>
 	<script>
-		let a = [1, 2, 2];
-		let n = a.length;
-		let m = new Map();
-		
-		for (let i of a) {
-			m.set(i, (m.get(i) || 0) + 1);
-		}
+		const express = require("express");
+const app = express();
+app.use(express.json());
 
-		for (let [k, v] of m) {
-			if (v > Math.floor(n / 2)) {
-				console.log(k); // print majority element
-			}
-		}
+function majorElement(arr) {
+  const m = new Map();
+  for (let i of arr) {
+    m.set(i, (m.get(i) || 0) + 1);
+  }
+
+  for (let [k, v] of m) {
+    if (v > Math.floor(arr.length / 2)) {
+      return k;
+    }
+  }
+  return -1; // if no majority element
+}
+
+app.post("/majorityElementChecker", (req, res) => {
+  try {
+    const { arr } = req.body;
+    const result = majorElement(arr);
+    res.status(200).json({ major: result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.listen(3000, () => console.log("Server running on port 3000"));
+
 	</script>
 </body>
 </html>
