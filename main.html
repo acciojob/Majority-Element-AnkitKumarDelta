@@ -5,22 +5,24 @@
 </head>
 <body>
 	<script>
-		const express = require("express");
+	const express = require("express");
 const app = express();
 app.use(express.json());
 
 function majorElement(arr) {
-  const m = new Map();
-  for (let i of arr) {
-    m.set(i, (m.get(i) || 0) + 1);
+  const freq = new Map();
+
+  for (const num of arr) {
+    freq.set(num, (freq.get(num) || 0) + 1);
   }
 
-  for (let [k, v] of m) {
-    if (v > Math.floor(arr.length / 2)) {
-      return k;
+  for (const [key, value] of freq.entries()) {
+    if (value > Math.floor(arr.length / 2)) {
+      return key;
     }
   }
-  return -1; // if no majority element
+
+  return -1; // not expected as per problem
 }
 
 app.post("/majorityElementChecker", (req, res) => {
@@ -29,12 +31,14 @@ app.post("/majorityElementChecker", (req, res) => {
     const result = majorElement(arr);
     res.status(200).json({ major: result });
   } catch (err) {
-    console.error(err);
+    console.error("Error:", err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 app.listen(3000, () => console.log("Server running on port 3000"));
+module.exports = { majorElement }; 
+
 
 	</script>
 </body>
